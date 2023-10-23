@@ -19,7 +19,8 @@
   --white: #fff;
   --blue: rgb(51, 129, 255);
   --red: #e80651;
-
+  --light-green: rgb(181, 187, 49);
+  --green: rgb(106, 180, 68);
   --bg-modal: #1a1a1a80;
 }
 
