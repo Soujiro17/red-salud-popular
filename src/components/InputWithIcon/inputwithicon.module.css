@@ -1,0 +1,27 @@
+.input_group {
+  display: flex;
+  height: var(--field-height);
+  border-radius: var(--border-radius);
+  border: var(--field-border);
+  outline: none;
+}
+
+.input_icon_container {
+  position: relative;
+  height: calc(var(--field-height) - 22px);
+}
+
+.input_icon_wrapper {
+  display: grid;
+  position: relative;
+  align-items: center;
+  height: 100%;
+  width: 35px;
+  padding: 0 3px;
+  background-color: var(--field-disabled);
+}
+
+.input_group > input {
+  border: none;
+  height: 100%;
+}

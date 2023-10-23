@@ -1,0 +1,28 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--modal-zindex);
+  padding-top: 5%;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-modal);
+  backdrop-filter: blur(3px);
+}
+
+.content {
+  display: block;
+  margin: auto;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.3rem;
+  box-shadow: var(--main-box-shadow);
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+  .content {
+    height: 98% !important;
+    width: 98% !important;
+  }
+}

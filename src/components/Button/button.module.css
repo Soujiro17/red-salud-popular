@@ -1,0 +1,47 @@
+.btn {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: var(--field-height);
+  border-radius: var(--border-radius);
+  border: var(--field-border);
+  background: none;
+  outline: none;
+  padding: 0 0.7rem;
+  cursor: pointer;
+  font-size: 0.95em;
+  z-index: 1;
+}
+
+.animation:hover {
+  transition: var(--link-transition);
+
+  background: var(--anchor-hover);
+}
+
+.btn::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  content: "";
+  z-index: -1;
+  background-color: var(--white);
+  opacity: 0;
+  transition: var(--link-transition);
+}
+
+.preset {
+  border: none;
+}
+
+.info {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.btn:hover::before {
+  transition: var(--link-transition);
+  opacity: 0.4;
+}

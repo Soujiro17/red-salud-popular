@@ -1,0 +1,24 @@
+.main {
+  min-height: 80vh;
+  padding-top: 4rem;
+}
+
+.content {
+  width: 50%;
+  display: block;
+  margin: auto;
+  box-shadow: var(--main-box-shadow);
+  padding: 1.5rem;
+}
+
+.content > h1 {
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 15px;
+}
+
+.formulario {
+  padding-top: 2rem;
+}

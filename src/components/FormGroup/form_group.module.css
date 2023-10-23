@@ -1,0 +1,26 @@
+.form_group {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.form_group > label {
+  font-weight: 300;
+  margin-bottom: 5px;
+}
+
+.form_group > span {
+  width: 98%;
+  margin-top: 3px;
+  font-size: 0.85em;
+  color: rgb(117, 117, 117);
+}
+
+.column {
+  flex-direction: column;
+  align-items: normal;
+}
+
+.row {
+  gap: 0.5rem;
+}

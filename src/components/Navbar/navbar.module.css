@@ -1,0 +1,33 @@
+.navbar {
+  float: right;
+  height: 100%;
+}
+
+.navlist {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.navitem_link {
+  color: var(--black);
+  transition: var(--link-transition);
+}
+
+.navitem_link:hover {
+  color: var(--blue);
+  transition: var(--link-transition);
+}
+
+.active {
+  color: var(--red);
+  border-bottom: 2px solid var(--red);
+  padding-bottom: 7px;
+}
+
+.active:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}

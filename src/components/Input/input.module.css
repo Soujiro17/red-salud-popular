@@ -1,0 +1,7 @@
+.input {
+  height: var(--field-height);
+  border-radius: var(--border-radius);
+  border: var(--field-border);
+  outline: none;
+  padding: 0 7px;
+}

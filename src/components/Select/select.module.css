@@ -1,0 +1,95 @@
+.select_pos {
+  position: relative;
+  height: var(--field-height);
+}
+
+.select_container {
+  border-radius: var(--border-radius);
+  border: var(--field-border);
+  outline: none;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.select_options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: var(--select-zindex);
+  background: var(--white);
+  box-shadow: var(--main-box-shadow);
+
+  max-height: 250px;
+  overflow-y: auto;
+
+  padding: 0;
+}
+
+.select_options > div {
+  width: 100%;
+  height: 2.5rem;
+  border-bottom: 1px solid #cacaca;
+  padding: 0 1rem;
+  line-height: 2.5rem;
+}
+
+.select_options > div:last-child {
+  border-bottom: none;
+}
+
+.select_option {
+  display: flex;
+  align-items: center;
+}
+.select_option:hover {
+  transition: var(--link-transition);
+  background: var(--blue);
+  color: var(--white);
+}
+
+.select_option[aria-selected="true"]:hover span {
+  background: var(--white);
+  border-radius: 100%;
+}
+
+.select_option > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  margin: 0 0.5rem;
+  padding: 1px;
+}
+
+.select_options > [title="tooltip-text"] {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.select_icon {
+  position: absolute;
+  right: 0.7rem;
+  transform: rotate(90deg);
+}
+
+.select_option.disabled {
+  background: var(--anchor-hover);
+  opacity: 0.7;
+}
+
+.select_option.disabled[aria-selected="true"]:hover span {
+  background: none;
+}
+
+.select_option.disabled:hover {
+  transition: none;
+  color: inherit;
+}
