@@ -1,6 +1,6 @@
 .main {
   min-height: 80vh;
-  padding-top: 4rem;
+  padding: 4rem 0;
 }
 
 .content {
@@ -8,6 +8,7 @@
   display: block;
   margin: auto;
   box-shadow: var(--main-box-shadow);
+  background: var(--white);
   padding: 1.5rem;
 }
 
@@ -17,8 +18,27 @@
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 15px;
+  color: var(--blue);
 }
 
 .formulario {
   padding-top: 2rem;
+}
+
+.formulario > h2 {
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 15px;
+  color: var(--blue);
+}
+
+.redirect {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.registrar_rut {
+  font-size: 0.9rem;
 }

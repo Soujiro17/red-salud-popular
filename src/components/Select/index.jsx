@@ -65,6 +65,7 @@ export function Select({
   write = false,
   maxLength,
   disableDefault = false,
+  placeholder = "",
 }) {
   const [value, setValue] = useState("");
   const [toFind, setToFind] = useState("");
@@ -89,6 +90,16 @@ export function Select({
     }
   };
 
+  const handleOutsideClick = (event) => {
+    if (
+      selectRef.current &&
+      !selectRef.current.contains(event.target) &&
+      open
+    ) {
+      setOpen(false);
+    }
+  };
+
   const stateValues = useMemo(() => ({ value, onChangeValue }), [value]);
 
   const optionMap = (option) => (
@@ -98,6 +109,14 @@ export function Select({
   );
 
   const optionFilter = (option) => option.value?.includes(toFind);
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (selectRef.current) {
@@ -122,6 +141,7 @@ export function Select({
           value={toFind}
           onChange={handleToFind}
           iconSrc="/icons/search.svg"
+          placeholder={placeholder}
           maxLength={maxLength}
           width="100%"
         />

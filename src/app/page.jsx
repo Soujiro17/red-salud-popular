@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { FormGroup } from "@/components/FormGroup";
 import styles from "./page.module.css";
-import { clientesSelect } from "@/data/clientes";
+import { clientes, clientesSelect } from "@/data/clientes";
 import { Spinner } from "@/components/Spinner";
+import { parseRUT } from "@/utils/parseRut";
 
 export default function Home() {
   const [rut, setRut] = useState("");
+  const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleRut = (value) => setRut(value);
@@ -26,11 +29,20 @@ export default function Home() {
     };
   }, [rut]);
 
+  useEffect(() => {
+    if (rut) {
+      setSelected(clientes.find((cliente) => cliente.rut === rut));
+    } else {
+      setSelected(null);
+    }
+  }, [rut]);
+
   return (
     <div className={styles.content}>
-      <h1>Información de la venta</h1>
+      <h1>Registrar compra</h1>
       <form className={styles.formulario}>
         <FormGroup
+          label="RUT"
           type="select"
           value={rut}
           onChange={handleRut}
@@ -40,7 +52,44 @@ export default function Home() {
           disableDefault
           write
         />
-        {loading ? <Spinner /> : rut}
+        <span className={styles.registrar_rut}>
+          No encuentras el RUT?{" "}
+          <Link className={styles.redirect} href="/">
+            Registrar cliente!
+          </Link>
+        </span>
+        {loading && <Spinner />}
+        {!loading && selected && (
+          <>
+            <h2>Datos cliente</h2>
+            <FormGroup
+              value={parseRUT(selected?.rut)}
+              label="RUT"
+              placeholder="RUT"
+            />
+            <FormGroup
+              value={selected?.nombres}
+              label="Nombres"
+              placeholder="Nombres"
+            />
+            <FormGroup
+              value={selected?.apellidos}
+              label="Apellidos"
+              placeholder="Apellidos"
+            />
+            <FormGroup
+              value={selected?.direccion}
+              label="Dirección"
+              placeholder="Dirección"
+            />
+            <h2>Información de compra</h2>
+            <FormGroup
+              label="Monto total"
+              type="number"
+              placeholder="Monto total"
+            />
+          </>
+        )}
       </form>
     </div>
   );

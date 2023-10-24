@@ -5,6 +5,8 @@
 }
 
 .loader_wrapper {
+  display: block;
+  margin: auto;
   height: 50px;
   width: 50px;
   background-color: var(--white);

@@ -17,7 +17,7 @@
   --navbar-color: #adadad;
 
   --white: #fff;
-  --blue: rgb(51, 129, 255);
+  --blue: #14a7e5;
   --red: #e80651;
   --light-green: rgb(181, 187, 49);
   --green: rgb(106, 180, 68);
@@ -50,6 +50,30 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f5;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+body::after {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  height: 100%;
+  width: 350px;
+  z-index: -1;
+  content: "";
+  /* border-color: transparent var(--red) var(--red) transparent; */
+  /* border-style: solid; */
+  /* border-width: 200px 200px 200px 200px; */
+  height: 0px;
+  width: 0px;
+}
+
+hr {
+  border: none;
+  background: #f1f1f1;
+  height: 1px;
 }
 
 a {

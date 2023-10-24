@@ -17,13 +17,13 @@
 }
 
 .navitem_link:hover {
-  color: var(--blue);
+  color: var(--red);
   transition: var(--link-transition);
 }
 
 .active {
-  color: var(--red);
-  border-bottom: 2px solid var(--red);
+  color: var(--blue);
+  border-bottom: 2px solid var(--blue);
   padding-bottom: 7px;
 }
 
