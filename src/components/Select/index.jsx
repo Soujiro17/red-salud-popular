@@ -25,7 +25,12 @@ const SelectContext = createContext({
   value: "",
 });
 
-export function SelectOption({ children, value, disabled = false }) {
+export function SelectOption({
+  children,
+  value,
+  disabled = false,
+  disabledMessage,
+}) {
   const { value: actualValue, onChangeValue } = useContext(SelectContext);
 
   const selectClassName = clsx({
@@ -35,7 +40,13 @@ export function SelectOption({ children, value, disabled = false }) {
 
   return (
     <div
-      onClick={disabled ? () => {} : () => onChangeValue(value)}
+      onClick={
+        disabled
+          ? () => {
+              alert(disabledMessage);
+            }
+          : () => onChangeValue(value)
+      }
       role="option"
       aria-selected={actualValue === value}
       className={selectClassName}
@@ -51,8 +62,15 @@ export function SelectOption({ children, value, disabled = false }) {
           />
         )}
       </span>
-
-      {children}
+      <p style={disabled ? { textDecoration: "line-through" } : {}}>
+        {children}
+      </p>{" "}
+      {disabled && disabledMessage ? (
+        <p style={{ marginLeft: ".5rem" }}>{disabledMessage}</p>
+      ) : null}
+      {/* <span>
+        {disabledMessage ? `- ${disabledMessage}` : ""}
+      </span> */}
     </div>
   );
 }
@@ -66,9 +84,11 @@ export function Select({
   maxLength,
   disableDefault = false,
   placeholder = "",
+  name,
+  value: startValue,
 }) {
   const [value, setValue] = useState("");
-  const [toFind, setToFind] = useState("");
+  const [toFind, setToFind] = useState(startValue || "");
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0, width: 0 });
 
@@ -103,12 +123,18 @@ export function Select({
   const stateValues = useMemo(() => ({ value, onChangeValue }), [value]);
 
   const optionMap = (option) => (
-    <SelectOption key={option.value} value={option.value}>
+    <SelectOption
+      key={option.value}
+      value={option.value}
+      disabled={option.disabled}
+      disabledMessage={option.disabledMessage}
+    >
       {option.label}
     </SelectOption>
   );
 
-  const optionFilter = (option) => option.value?.includes(toFind);
+  const optionFilter = (option) =>
+    option.value?.toLowerCase().includes(toFind.toLocaleLowerCase());
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -133,10 +159,18 @@ export function Select({
     }
   }, [toFind]);
 
+  useEffect(() => {
+    if (!startValue) {
+      setValue("");
+      setToFind("");
+    }
+  }, [startValue]);
+
   return (
     <SelectContext.Provider value={stateValues}>
       {write ? (
         <InputWithIcon
+          name={name}
           parentRef={selectRef}
           value={toFind}
           onChange={handleToFind}
@@ -188,7 +222,13 @@ export function Select({
             )}
             {options.length > 0 ? (
               write ? (
-                options.filter(optionFilter).map(optionMap)
+                options.filter(optionFilter).length > 0 ? (
+                  options.filter(optionFilter).map(optionMap)
+                ) : (
+                  <p style={{ margin: ".3rem" }}>
+                    No hay resultados en tu búsqueda
+                  </p>
+                )
               ) : (
                 options.map(optionMap)
               )

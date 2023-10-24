@@ -19,6 +19,7 @@ export function Button({
     [styles.preset]: schema,
     [styles.animation]: !schema,
     [styles.info]: schema === "info",
+    [styles.success]: schema === "success",
     [className]: className,
   });
 

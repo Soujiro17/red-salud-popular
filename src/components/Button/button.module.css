@@ -1,6 +1,7 @@
 .btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   height: var(--field-height);
   border-radius: var(--border-radius);
@@ -32,12 +33,22 @@
   transition: var(--link-transition);
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+
 .preset {
   border: none;
 }
 
 .info {
   background-color: var(--blue);
+  color: var(--white);
+}
+
+.success {
+  background-color: var(--green);
   color: var(--white);
 }
 

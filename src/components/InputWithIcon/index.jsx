@@ -10,6 +10,7 @@ export function InputWithIcon({
   onChange,
   value,
   parentRef,
+  name,
   maxLength,
 }) {
   return (
@@ -26,6 +27,7 @@ export function InputWithIcon({
         width={width}
         title={title}
         maxLength={maxLength}
+        name={name}
       />
     </div>
   );
