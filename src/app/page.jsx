@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import { clientes, clientesSelect } from "@/data/clientes";
 import { Spinner } from "@/components/Spinner";
 import { parseRUT } from "@/utils/parseRut";
+import { FormGroupLayout } from "@/layouts/FormGroupLayout";
 
 export default function Home() {
   const [rut, setRut] = useState("");
@@ -66,17 +67,22 @@ export default function Home() {
               value={parseRUT(selected?.rut)}
               label="RUT"
               placeholder="RUT"
+              disabled
             />
-            <FormGroup
-              value={selected?.nombres}
-              label="Nombres"
-              placeholder="Nombres"
-            />
-            <FormGroup
-              value={selected?.apellidos}
-              label="Apellidos"
-              placeholder="Apellidos"
-            />
+            <FormGroupLayout columns="1fr 1fr">
+              <FormGroup
+                value={selected?.nombres}
+                label="Nombres"
+                placeholder="Nombres"
+                disabled
+              />
+              <FormGroup
+                value={selected?.apellidos}
+                label="Apellidos"
+                placeholder="Apellidos"
+                disabled
+              />
+            </FormGroupLayout>
             <FormGroup
               value={selected?.direccion}
               label="Dirección"
