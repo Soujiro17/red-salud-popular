@@ -42,9 +42,7 @@ export function SelectOption({
     <div
       onClick={
         disabled
-          ? () => {
-              alert(disabledMessage);
-            }
+          ? () => (disabledMessage ? alert(disabledMessage) : "")
           : () => onChangeValue(value)
       }
       role="option"
@@ -62,11 +60,12 @@ export function SelectOption({
           />
         )}
       </span>
-      <p style={disabled ? { textDecoration: "line-through" } : {}}>
-        {children}
-      </p>{" "}
+      <p>{children}</p>{" "}
       {disabled && disabledMessage ? (
-        <p style={{ marginLeft: ".5rem" }}>{disabledMessage}</p>
+        <p style={{ marginLeft: ".5rem" }}>
+          {"-  "}
+          {disabledMessage}
+        </p>
       ) : null}
       {/* <span>
         {disabledMessage ? `- ${disabledMessage}` : ""}
@@ -161,7 +160,6 @@ export function Select({
 
   useEffect(() => {
     if (!startValue) {
-      setValue("");
       setToFind("");
     }
   }, [startValue]);
@@ -216,7 +214,7 @@ export function Select({
             tabIndex={0}
           >
             {disableDefault ? null : (
-              <SelectOption disabled value="">
+              <SelectOption disabled value="" disabledMessage="">
                 {defaultSelectMessage || "Selecciona una opción"}
               </SelectOption>
             )}

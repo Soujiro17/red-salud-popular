@@ -14,6 +14,7 @@ import { parseRUT } from "@/utils/parseRut";
 import { FormGroupLayout } from "@/layouts/FormGroupLayout";
 import { productosSelect, productos as listaProductos } from "@/data/productos";
 import { Button } from "@/components/Button";
+import { metodosPago } from "@/data/metodos_pago";
 
 const productoInitialState = {
   nombre: "",
@@ -24,6 +25,7 @@ const productoInitialState = {
 export default function Home() {
   const [rut, setRut] = useState("");
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+  const [medioPago, setMedioPago] = useState("");
   const [productoState, setProductoState] = useState(productoInitialState);
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,12 @@ export default function Home() {
   const printRef = useRef(null);
 
   const handleRut = (value) => setRut(value);
+  const handleMedioPago = (value) => setMedioPago(value);
+  const handleClienteInfo = (e) =>
+    setClienteSeleccionado((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
 
   const handleProductoState = (e) => {
     const productoEncontrado = listaProductos.find(
@@ -139,7 +147,7 @@ export default function Home() {
         {loading && <Spinner />}
         {!loading && clienteSeleccionado && (
           <div className="print-container" ref={printRef}>
-            <h2>Datos cliente</h2>
+            <h2>Datos paciente</h2>
             <FormGroup
               value={parseRUT(clienteSeleccionado?.rut)}
               label="RUT"
@@ -162,8 +170,10 @@ export default function Home() {
             </FormGroupLayout>
             <FormGroup
               value={clienteSeleccionado?.direccion}
-              label="Dirección"
-              placeholder="Dirección"
+              label="Dirección de despacho"
+              placeholder="Dirección de despacho"
+              name="direccion"
+              onChange={handleClienteInfo}
             />
             <h2>Información de Venta</h2>
             <div
@@ -234,6 +244,14 @@ export default function Home() {
                 </tr>
               </tbody>
             </table>
+            <FormGroup
+              label="Medio de pago"
+              type="select"
+              value={medioPago}
+              onChange={handleMedioPago}
+              placeholder="Medio de pago"
+              options={metodosPago}
+            />
             <div className={styles.btn_container}>
               <ReactToPrint
                 content={reactToPrintContent}
