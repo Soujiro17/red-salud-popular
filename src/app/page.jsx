@@ -16,6 +16,7 @@ import { FormGroupLayout } from "@/layouts/FormGroupLayout";
 import { productosSelect, productos as listaProductos } from "@/data/productos";
 import { Button } from "@/components/Button";
 import { metodosPago } from "@/data/metodos_pago";
+import { BoletaDespacho } from "@/components/BoletaDespacho";
 
 const productoInitialState = {
   nombre: "",
@@ -29,7 +30,13 @@ const headers = [
   { label: "Dirección de despacho", key: "direccion" },
 ];
 
-const data = [{ nombres: "Marco Vivar", apellidos: "Reyes Cáceres" }];
+const data = [
+  {
+    nombres: "Vicente Thomas Mauricio",
+    apellidos: "Reyes Cáceres",
+    direccion: "Yungay 2579, Depto 21 B, Valparaíso",
+  },
+];
 
 export default function Home() {
   const [rut, setRut] = useState("");
@@ -114,13 +121,6 @@ export default function Home() {
   const precioTotal = productos.reduce((a, b) => a + b.precio, 0);
 
   const reactToPrintTrigger = useCallback(() => {
-    // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
-    // to the root node of the returned component as it will be overwritten.
-
-    // Bad: the `onClick` here will be overwritten by `react-to-print`
-    // return <button onClick={() => alert('This will not work')}>Print this out!</button>;
-
-    // Good
     return (
       <Button className="print-btn" type="button" schema="info">
         Registrar e imprimir
@@ -155,7 +155,10 @@ export default function Home() {
         </span> */}
         {loading && <Spinner />}
         {!loading && clienteSeleccionado && (
-          <div className="print-container" ref={printRef}>
+          <div
+            className="print-container"
+            // ref={printRef}
+          >
             <h2>Datos paciente</h2>
             <FormGroup
               value={parseRUT(clienteSeleccionado?.rut)}
@@ -278,6 +281,10 @@ export default function Home() {
                 </CSVLink>
               </Button>
             </div>
+            <BoletaDespacho
+              ref={printRef}
+              data={{ ...clienteSeleccionado, medioPago }}
+            />
           </div>
         )}
       </form>

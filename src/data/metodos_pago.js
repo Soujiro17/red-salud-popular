@@ -1,14 +1,14 @@
 export const metodosPago = [
   {
-    value: 0,
+    value: "Efectivo",
     label: "Efectivo",
   },
   {
-    value: 1,
+    value: "Transferencia",
     label: "Transferencia",
   },
   {
-    value: 2,
+    value: "Débito/Crédito",
     label: "Débito/Crédito",
   },
 ];
