@@ -25,7 +25,7 @@
   padding-top: 2rem;
 }
 
-.formulario > h2 {
+.formulario div > h2 {
   font-weight: 400;
   text-align: center;
   text-transform: uppercase;
@@ -81,4 +81,12 @@
 
 .add_product_wrapper > button {
   margin-bottom: 1rem;
+}
+
+.btn_container {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }

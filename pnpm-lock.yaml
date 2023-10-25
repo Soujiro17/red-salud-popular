@@ -6,19 +6,22 @@ settings:
 
 dependencies:
   clsx:
-    specifier: ^2.0.0
+    specifier: 2.0.0
     version: 2.0.0
   next:
     specifier: 13.5.4
     version: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)
   react:
-    specifier: ^18
+    specifier: '18'
     version: 18.2.0
   react-dom:
-    specifier: ^18
+    specifier: '18'
     version: 18.2.0(react@18.2.0)
+  react-to-print:
+    specifier: 2.14.15
+    version: 2.14.15(react-dom@18.2.0)(react@18.2.0)
   uuid:
-    specifier: ^9.0.1
+    specifier: 9.0.1
     version: 9.0.1
 
 devDependencies:
@@ -29,19 +32,19 @@ devDependencies:
     specifier: 18.2.25
     version: 18.2.25
   eslint:
-    specifier: ^8
+    specifier: '8'
     version: 8.51.0
   eslint-config-airbnb:
-    specifier: ^19.0.4
+    specifier: 19.0.4
     version: 19.0.4(eslint-plugin-import@2.28.1)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.51.0)
   eslint-config-next:
     specifier: 13.5.4
     version: 13.5.4(eslint@8.51.0)(typescript@5.2.2)
   eslint-config-prettier:
-    specifier: ^9.0.0
+    specifier: 9.0.0
     version: 9.0.0(eslint@8.51.0)
   eslint-config-react-app:
-    specifier: ^7.0.1
+    specifier: 7.0.1
     version: 7.0.1(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.15)(eslint@8.51.0)(typescript@5.2.2)
   eslint-plugin-import:
     specifier: 2.28.1
@@ -50,10 +53,10 @@ devDependencies:
     specifier: 6.7.1
     version: 6.7.1(eslint@8.51.0)
   eslint-plugin-prettier:
-    specifier: ^5.0.0
+    specifier: 5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.51.0)(prettier@3.0.3)
   eslint-plugin-react:
-    specifier: ^7.33.2
+    specifier: 7.33.2
     version: 7.33.2(eslint@8.51.0)
   eslint-plugin-react-hooks:
     specifier: 4.6.0
@@ -62,13 +65,13 @@ devDependencies:
     specifier: 0.4.3
     version: 0.4.3(eslint@8.51.0)
   husky:
-    specifier: ^8.0.0
-    version: 8.0.3
+    specifier: 8.0.0
+    version: 8.0.0
   lint-staged:
-    specifier: ^14.0.1
+    specifier: 14.0.1
     version: 14.0.1
   prettier:
-    specifier: ^3.0.3
+    specifier: 3.0.3
     version: 3.0.3
 
 packages:
@@ -3399,8 +3402,8 @@ packages:
     engines: {node: '>=14.18.0'}
     dev: true
 
-  /husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+  /husky@8.0.0:
+    resolution: {integrity: sha512-4qbE/5dzNDNxFEkX9MNRPKl5+omTXQzdILCUWiqG/lWIAioiM5vln265/l6I2Zx8gpW8l1ukZwGQeCFbBZ6+6w==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -4191,6 +4194,16 @@ packages:
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
+
+  /react-to-print@2.14.15(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-SKnwOzU2cJ8eaAkoJO7+gNhvfEDmm+Y34IdcHsjtHioUevUPhprqbVtvNJlZ2JkGJ8ExK2QNWM9pXECTDR5D8w==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

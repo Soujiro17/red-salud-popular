@@ -1,7 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback, useRef } from "react";
+import ReactToPrint from "react-to-print";
+import clsx from "clsx";
+
 import { FormGroup } from "@/components/FormGroup";
 import styles from "./page.module.css";
 import { clientes, clientesSelect } from "@/data/clientes";
@@ -23,6 +27,8 @@ export default function Home() {
   const [productoState, setProductoState] = useState(productoInitialState);
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const printRef = useRef(null);
 
   const handleRut = (value) => setRut(value);
 
@@ -90,9 +96,28 @@ export default function Home() {
 
   const precioTotal = productos.reduce((a, b) => a + b.precio, 0);
 
+  const reactToPrintTrigger = useCallback(() => {
+    // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
+    // to the root node of the returned component as it will be overwritten.
+
+    // Bad: the `onClick` here will be overwritten by `react-to-print`
+    // return <button onClick={() => alert('This will not work')}>Print this out!</button>;
+
+    // Good
+    return (
+      <Button className="print-btn" type="button" schema="info">
+        Registrar e imprimir
+      </Button>
+    );
+  }, []);
+
+  const reactToPrintContent = useCallback(() => {
+    return printRef.current;
+  }, [printRef.current]);
+
   return (
     <div className={styles.content}>
-      <h1>Registrar compra</h1>
+      <h1>Registrar Venta</h1>
       <form className={styles.formulario}>
         <FormGroup
           label="RUT"
@@ -105,15 +130,15 @@ export default function Home() {
           disableDefault
           write
         />
-        <span className={styles.registrar_rut}>
+        {/* <span className={styles.registrar_rut}>
           No encuentras el RUT?{" "}
           <Link className={styles.redirect} href="/">
             Registrar cliente!
           </Link>
-        </span>
+        </span> */}
         {loading && <Spinner />}
         {!loading && clienteSeleccionado && (
-          <>
+          <div className="print-container" ref={printRef}>
             <h2>Datos cliente</h2>
             <FormGroup
               value={parseRUT(clienteSeleccionado?.rut)}
@@ -140,8 +165,10 @@ export default function Home() {
               label="Dirección"
               placeholder="Dirección"
             />
-            <h2>Información de compra</h2>
-            <div className={styles.add_product_wrapper}>
+            <h2>Información de Venta</h2>
+            <div
+              className={clsx(styles.add_product_wrapper, "print-add-producto")}
+            >
               <FormGroupLayout columns="1fr 1fr">
                 <FormGroup
                   label="Fármaco"
@@ -207,7 +234,18 @@ export default function Home() {
                 </tr>
               </tbody>
             </table>
-          </>
+            <div className={styles.btn_container}>
+              <ReactToPrint
+                content={reactToPrintContent}
+                trigger={reactToPrintTrigger}
+                documentTitle="Guía de despacho"
+                removeAfterPrint
+              />
+              <Button className="print-btn" schema="success">
+                Exportar a Excel
+              </Button>
+            </div>
+          </div>
         )}
       </form>
     </div>
