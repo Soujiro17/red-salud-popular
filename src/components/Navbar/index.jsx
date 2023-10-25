@@ -10,8 +10,7 @@ export function NavItem({ label = "", href = "/" }) {
 
   const className = clsx({
     [styles.navitem_link]: true,
-    [styles.active]:
-      (pathname.includes(href) && href !== "/") || pathname === href,
+    [styles.active]: pathname === href,
   });
 
   return (
@@ -27,7 +26,8 @@ export function Navbar() {
   return (
     <nav className={styles.navbar}>
       <ul className={styles.navlist}>
-        <NavItem label="Inicio" href="/" />
+        <NavItem label="Inicio" href="/dashboard" />
+        <NavItem label="Registrar venta" href="/dashboard/registrar-venta" />
         <NavItem label="Ventas" href="/test" />
       </ul>
     </nav>
