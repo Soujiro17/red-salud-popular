@@ -3,6 +3,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { CSVLink } from "react-csv";
 import ReactToPrint from "react-to-print";
 import clsx from "clsx";
 
@@ -21,6 +22,14 @@ const productoInitialState = {
   precio: 0,
   cantidad: 1,
 };
+
+const headers = [
+  { label: "Nombres", key: "nombres" },
+  { label: "Apellidos", key: "apellidos" },
+  { label: "Dirección de despacho", key: "direccion" },
+];
+
+const data = [{ nombres: "Marco Vivar", apellidos: "Reyes Cáceres" }];
 
 export default function Home() {
   const [rut, setRut] = useState("");
@@ -260,7 +269,9 @@ export default function Home() {
                 removeAfterPrint
               />
               <Button className="print-btn" schema="success">
-                Exportar a Excel
+                <CSVLink data={data} headers={headers}>
+                  Exportar a CSV
+                </CSVLink>
               </Button>
             </div>
           </div>
