@@ -11,18 +11,16 @@ export function Header() {
       <Link href="/">
         <Logo />
       </Link>
-      <div className={styles.right_header}>
-        <Navbar />
-        <div className={styles.user_container}>
-          <span className={styles.user}>Vicente Reyes Cáceres</span>
-          <Image
-            height={50}
-            width={50}
-            className={styles.user_img}
-            src="/user.png"
-            alt="user"
-          />
-        </div>
+      <Navbar />
+      <div className={styles.user_container}>
+        <span className={styles.user}>Vicente Reyes Cáceres</span>
+        <Image
+          height={50}
+          width={50}
+          className={styles.user_img}
+          src="/user.png"
+          alt="user"
+        />
       </div>
     </header>
   );
