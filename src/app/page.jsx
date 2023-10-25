@@ -269,7 +269,11 @@ export default function Home() {
                 removeAfterPrint
               />
               <Button className="print-btn" schema="success">
-                <CSVLink data={data} headers={headers}>
+                <CSVLink
+                  filename={`guia-despacho-${rut}`}
+                  data={data}
+                  headers={headers}
+                >
                   Exportar a CSV
                 </CSVLink>
               </Button>
