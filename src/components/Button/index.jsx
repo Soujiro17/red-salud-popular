@@ -12,6 +12,7 @@ export function Button({
   schema = "",
   href = "",
   children,
+  width,
   ...props
 }) {
   const btnClassName = clsx({
@@ -22,6 +23,10 @@ export function Button({
     [styles.success]: schema === "success",
     [className]: className,
   });
+
+  const style = {
+    width,
+  };
 
   const router = useRouter();
 
@@ -40,6 +45,7 @@ export function Button({
           : () => {}
       }
       {...props}
+      style={style}
       type={type}
     >
       {children}

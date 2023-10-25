@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { FormGroup } from "@/components/FormGroup";
 import styles from "./page.module.css";
 import { Logo } from "@/components/Logo";
@@ -19,6 +20,7 @@ export default function Inicio() {
     setTimeout(() => {
       setIsLoading(false);
       router.push("/dashboard");
+      toast.success("Sesión iniciada con éxito");
     }, 3000);
   };
 
