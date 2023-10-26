@@ -28,7 +28,7 @@ export function Navbar() {
       <ul className={styles.navlist}>
         <NavItem label="Inicio" href="/dashboard" />
         <NavItem label="Registrar venta" href="/dashboard/registrar-venta" />
-        <NavItem label="Ventas" href="/test" />
+        <NavItem label="Ventas" href="/dashboard/ventas" />
       </ul>
     </nav>
   );

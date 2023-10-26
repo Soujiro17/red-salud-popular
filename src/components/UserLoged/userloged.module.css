@@ -15,7 +15,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: #f9f9f9;
+  /* background: #f9f9f9; */
+  color: var(--white);
+  background: var(--red);
   padding: 0.2rem 1rem;
   padding-right: 3.5rem;
   border-radius: 1rem;
@@ -29,7 +31,7 @@
   border: 5px solid var(--white);
   top: 0;
   bottom: 0;
-  right: 0;
+  right: -5px;
   margin: auto 0;
   transition: 0.2s all;
   z-index: 10;
