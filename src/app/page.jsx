@@ -30,7 +30,7 @@ export default function Inicio() {
         <Logo height={80} width={200} />
         <form onSubmit={onSubmit} className={styles.login_form}>
           {isLoading ? (
-            <Spinner />
+            <Spinner loadingMessage="Iniciando sesión" />
           ) : (
             <>
               <FormGroup label="RUT" placeholder="RUT" />

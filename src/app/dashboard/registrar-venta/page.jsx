@@ -153,7 +153,7 @@ export default function Home() {
             Registrar cliente!
           </Link>
         </span> */}
-        {loading && <Spinner />}
+        {loading && <Spinner loadingMessage="Buscando RUT" />}
         {!loading && clienteSeleccionado && (
           <div
             className="print-container"
