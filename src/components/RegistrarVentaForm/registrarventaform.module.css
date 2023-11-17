@@ -1,0 +1,65 @@
+.formulario div > h2 {
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 15px;
+  color: var(--blue);
+}
+
+.redirect {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.registrar_rut {
+  font-size: 0.9rem;
+}
+
+.tabla_productos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla_productos th,
+.tabla_productos td {
+  padding: 0.2rem 1rem;
+  text-align: center;
+  border: 1px solid #cacaca;
+}
+
+.tabla_productos tr {
+  height: 2.5rem;
+}
+
+.tabla_productos thead tr {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.tabla_productos tbody tr:last-child {
+  background: var(--green);
+  color: var(--white);
+}
+
+.table_producto_nombre {
+  width: 100% !important;
+}
+
+.add_product_wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.add_product_wrapper > button {
+  margin-bottom: 1rem;
+}
+
+.btn_container {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

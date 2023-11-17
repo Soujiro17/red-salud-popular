@@ -14,6 +14,7 @@ import {
   useMemo,
   useContext,
 } from "react";
+import { toast } from "react-toastify";
 import clsx from "clsx";
 import { createPortal } from "react-dom";
 import Image from "next/image";
@@ -42,7 +43,7 @@ export function SelectOption({
     <div
       onClick={
         disabled
-          ? () => (disabledMessage ? alert(disabledMessage) : "")
+          ? () => (disabledMessage ? toast.error(disabledMessage) : "")
           : () => onChangeValue(value)
       }
       role="option"

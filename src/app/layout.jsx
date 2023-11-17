@@ -1,7 +1,9 @@
 import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "@/contexts/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import { FarmaciaProvider } from "@/contexts/FarmaciaContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +16,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
       <body className={inter.className}>
-        {children}
-        <div id="modal" />
-        <ToastContainer />
+        <AuthProvider>
+          <FarmaciaProvider>
+            {children}
+            <div id="modal" />
+            <ToastContainer />
+          </FarmaciaProvider>
+        </AuthProvider>
       </body>
     </html>
   );
