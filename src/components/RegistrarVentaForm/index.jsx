@@ -2,17 +2,16 @@
 
 "use client";
 
-import { CSVLink } from "react-csv";
 import { toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
 import { useRef, useState, useEffect } from "react";
 import clsx from "clsx";
+
 import { FormGroup } from "../FormGroup";
 import styles from "./registrarventaform.module.css";
 import { useFarmacia } from "@/hooks/useFarmacia";
 
 // Data
-import { guiaDespachoExcelHeaders, guiaDespachoRowExample } from "@/data/excel";
 import { clientesSelect } from "@/data/clientes";
 
 import { Spinner } from "../Spinner";
@@ -25,11 +24,15 @@ import { productoInitialState } from "@/data/states";
 import { addNewVenta } from "../../../lib/ventas";
 import { getCliente } from "../../../lib/clientes";
 import { getProductos } from "../../../lib/productos";
+import { TablaVentaProductos } from "../TablaVentaProductos";
 
 export function RegistrarVentaForm() {
   const [rut, setRut] = useState("");
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [medioPago, setMedioPago] = useState("");
+  const [fechaDespacho, setFechaDespacho] = useState("");
+  const [sector, setSector] = useState("");
+  const [telefono, setTelefono] = useState("");
   const [producto, setProducto] = useState(productoInitialState);
   const [productos, setProductos] = useState([]);
   const [isPrinting, setIsPrinting] = useState(false);
@@ -43,6 +46,44 @@ export function RegistrarVentaForm() {
 
   const { addVenta } = useFarmacia();
 
+  const handleFechaDespacho = (e) => {
+    const now = new Date();
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      17,
+      0,
+      0,
+      0,
+    );
+
+    const selectedDay = new Date(e.target.value.concat("T00:00:00"));
+
+    const isBeforeEndOfDay = now < endOfDay;
+
+    if (isBeforeEndOfDay) {
+      if (selectedDay.getTime() >= now.setHours(0, 0, 0, 0)) {
+        setFechaDespacho(e.target.value);
+      } else {
+        toast.error("La fecha de despacho no puede ser anterior a hoy.");
+      }
+    } else {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(now.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      if (selectedDay.getTime() >= tomorrow.getTime()) {
+        setFechaDespacho(e.target.value);
+      } else {
+        toast.error(
+          "La fecha de despacho debe ser para el día siguiente después de las 17:00 hrs.",
+        );
+      }
+    }
+  };
+
+  const handleTelefono = (e) => setTelefono(e.target.value);
+  const handleSector = (e) => setSector(e.target.value);
   const handleRut = (value) => setRut(value);
   const handleMedioPago = (value) => setMedioPago(value);
   const handleProducto = (value) => {
@@ -57,6 +98,7 @@ export function RegistrarVentaForm() {
       ...prev,
       nombre: value,
       precioUnidad: selectedProduct.precio,
+      total: selectedProduct.precio,
     }));
   };
   const handleCantidad = (e) => {
@@ -86,19 +128,24 @@ export function RegistrarVentaForm() {
     onBeforeGetContent: () => {
       return new Promise((resolve, reject) => {
         setIsPrinting(true);
-        addNewVenta({
-          data: {
-            cliente: clienteSeleccionado,
-            venta: { medioPago, productos },
+        const data = {
+          id: Math.random(),
+          cliente: { ...clienteSeleccionado, telefono, sector },
+          venta: {
+            medio_pago: medioPago,
+            total: precioTotal,
+            productos,
+            fecha_solicitud: new Date().toDateString(),
+            fecha_despacho: fechaDespacho,
           },
+        };
+        addNewVenta({
+          data,
         })
-          .then((data) => {
+          .then(() => {
             promiseResolveRef.current = resolve;
             /* nueva venta para el state */
-            addVenta({
-              cliente: clienteSeleccionado,
-              venta: { medioPago, productos },
-            });
+            addVenta(data);
             resolve(data);
           })
           .catch((err) => {
@@ -200,14 +247,48 @@ export function RegistrarVentaForm() {
               readOnly
             />
           </FormGroupLayout>
+
+          <FormGroupLayout columns="1fr 1fr">
+            <FormGroup
+              value={clienteSeleccionado?.direccion}
+              label="Dirección de despacho"
+              placeholder="Dirección de despacho"
+              name="direccion"
+              onChange={handleClienteInfo}
+            />
+            <FormGroup
+              value={sector}
+              label="Sector"
+              placeholder="Sector"
+              name="sector"
+              onChange={handleSector}
+            />
+          </FormGroupLayout>
           <FormGroup
-            value={clienteSeleccionado?.direccion}
-            label="Dirección de despacho"
-            placeholder="Dirección de despacho"
-            name="direccion"
-            onChange={handleClienteInfo}
+            value={telefono}
+            label="Teléfono"
+            placeholder="Teléfono"
+            name="teléfono"
+            onChange={handleTelefono}
           />
           <h2>Información de Venta</h2>
+          <FormGroupLayout columns="1fr 1fr">
+            <FormGroup
+              label="Método de pago"
+              type="select"
+              value={medioPago}
+              onChange={handleMedioPago}
+              placeholder="Método de pago"
+              options={metodosPago}
+            />
+            <FormGroup
+              label="Fecha de despacho"
+              type="date"
+              value={fechaDespacho}
+              onChange={handleFechaDespacho}
+              placeholder="Fecha de despacho"
+            />
+          </FormGroupLayout>
           <div
             className={clsx(styles.add_product_wrapper, "print-add-producto")}
           >
@@ -243,50 +324,8 @@ export function RegistrarVentaForm() {
               +
             </Button>
           </div>
-          <table className={styles.tabla_productos}>
-            <thead>
-              <tr>
-                <th className={styles.table_producto_nombre}>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productos.length > 0 ? (
-                productos.map((producto) => (
-                  <tr key={producto.nombre}>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.cantidad}</td>
-                    <td>${producto.precioUnidad.toLocaleString("es-CL")}</td>
-                    <td>${producto.total.toLocaleString("es-CL")}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={3}>No hay productos añadidos</td>
-                </tr>
-              )}
-              <tr>
-                <td>
-                  <strong>Total</strong>
-                </td>
-                <td> </td>
-                <td> </td>
-                <td>
-                  <strong>${precioTotal.toLocaleString("es-CL")}</strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <FormGroup
-            label="Medio de pago"
-            type="select"
-            value={medioPago}
-            onChange={handleMedioPago}
-            placeholder="Medio de pago"
-            options={metodosPago}
-          />
+          <TablaVentaProductos productos={productos} total={precioTotal} />
+
           <div className={styles.btn_container}>
             <Button
               onClick={handlePrint}
@@ -296,19 +335,10 @@ export function RegistrarVentaForm() {
             >
               Registrar e imprimir
             </Button>
-            <Button className="print-btn" schema="success">
-              <CSVLink
-                filename={`guia-despacho-${rut}`}
-                headers={guiaDespachoExcelHeaders}
-                data={guiaDespachoRowExample}
-              >
-                Exportar a CSV
-              </CSVLink>
-            </Button>
           </div>
           <BoletaDespacho
             ref={printRef}
-            data={{ ...clienteSeleccionado, medioPago }}
+            data={{ ...clienteSeleccionado, medioPago, fecha: fechaDespacho }}
           />
         </div>
       )}

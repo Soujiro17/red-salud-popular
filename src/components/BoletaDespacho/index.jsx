@@ -18,7 +18,7 @@ export const BoletaDespacho = forwardRef(({ data }, ref) => {
         </tr>
         <tr>
           <th>Fecha</th>
-          <td>{data.fecha || "25-10-2023"}</td>
+          <td>{data.fecha}</td>
         </tr>
         <tr>
           <th>Nombre:</th>

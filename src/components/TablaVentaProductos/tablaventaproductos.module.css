@@ -1,0 +1,29 @@
+.tabla_productos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla_productos th,
+.tabla_productos td {
+  padding: 0.2rem 1rem;
+  text-align: center;
+  border: 1px solid #cacaca;
+}
+
+.tabla_productos tr {
+  height: 2.5rem;
+}
+
+.tabla_productos thead tr {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.tabla_productos tbody tr:last-child {
+  background: var(--green);
+  color: var(--white);
+}
+
+.table_producto_nombre {
+  width: 100% !important;
+}

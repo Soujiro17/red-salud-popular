@@ -81,6 +81,32 @@ a {
   text-decoration: none;
 }
 
+.content {
+  width: 50%;
+  display: block;
+  margin: auto;
+  box-shadow: var(--main-box-shadow);
+  background: var(--white);
+  padding: 1.5rem;
+}
+
+.content > h1 {
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 15px;
+  color: var(--blue);
+}
+
+@media only screen and (max-width: 1524px) {
+  .content {
+    width: 90%;
+    position: relative;
+    z-index: 100;
+  }
+}
+
 @media print {
   .print-container {
     padding: 0 2rem;
