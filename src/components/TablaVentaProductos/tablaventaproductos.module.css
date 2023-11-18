@@ -27,3 +27,14 @@
 .table_producto_nombre {
   width: 100% !important;
 }
+
+.actions_cell > svg {
+  fill: var(--red);
+  cursor: pointer;
+}
+
+.actions_cell > svg:hover {
+  fill: var(--red);
+  cursor: pointer;
+  opacity: 0.8;
+}

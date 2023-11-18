@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
 import { useRef, useState, useEffect } from "react";
 import clsx from "clsx";
+import { v4 as uuidv4 } from "uuid";
 
 import { FormGroup } from "../FormGroup";
 import styles from "./registrarventaform.module.css";
@@ -119,8 +120,12 @@ export function RegistrarVentaForm() {
     if (producto.cantidad <= 0)
       return toast.error("La cantidad debe ser mayor que cero");
 
-    setProductos((prev) => [...prev, producto]);
+    setProductos((prev) => [...prev, { ...producto, id: uuidv4() }]);
     setProducto(productoInitialState);
+  };
+
+  const deleteProduct = (id) => {
+    setProductos((prev) => prev.filter((producto) => producto.id !== id));
   };
 
   const handlePrint = useReactToPrint({
@@ -324,8 +329,11 @@ export function RegistrarVentaForm() {
               +
             </Button>
           </div>
-          <TablaVentaProductos productos={productos} total={precioTotal} />
-
+          <TablaVentaProductos
+            productos={productos}
+            total={precioTotal}
+            eliminarProducto={deleteProduct}
+          />
           <div className={styles.btn_container}>
             <Button
               onClick={handlePrint}

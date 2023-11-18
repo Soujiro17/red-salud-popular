@@ -7,20 +7,21 @@ import ExcelJS from "exceljs";
 
 import { Button } from "@/components/Button";
 import { useFarmacia } from "@/hooks/useFarmacia";
-import { guiaDespachoVendedorExcelHeaders } from "@/data/excel";
+import { getColumnsGuiaDespacho } from "@/utils/getColumnsGuiaDespacho";
+import styles from "./ventas.module.css";
+import { Table } from "@/components/Table";
 
 export default function RegistrosVentas() {
   const { ventas } = useFarmacia();
 
-  const downloadxls = (e) => {
+  const downloadxls = (e, full = false) => {
     e.preventDefault();
 
     const workbook = new ExcelJS.Workbook();
-    // Añadimos una hoja al libro
+
     const sheet = workbook.addWorksheet("Mi Hoja");
 
-    // Añadimos algunas columnas con sus nombres y datos iniciales
-    sheet.columns = guiaDespachoVendedorExcelHeaders;
+    sheet.columns = getColumnsGuiaDespacho(full);
 
     const headerRow = sheet.getRow(1);
 
@@ -45,41 +46,47 @@ export default function RegistrosVentas() {
       };
     });
 
-    ventas.forEach((solicitud) =>
-      sheet.addRow({
+    ventas.forEach((solicitud) => {
+      const baseRow = {
         id: solicitud.id,
-        estado: "",
-        fecha_solicitud: new Date(
-          solicitud.venta.fecha_solicitud,
-        ).toLocaleDateString("es-CL"),
-        fecha_entrega: new Date(
-          solicitud.venta.fecha_despacho,
-        ).toLocaleDateString("es-CL"),
-        rut: solicitud.cliente.rut,
         nombres: solicitud.cliente.nombres,
         apellidos: solicitud.cliente.apellidos,
         telefono: solicitud.cliente.telefono,
         direccion: solicitud.cliente.direccion,
         sector: solicitud.cliente.sector,
-        descripcion: solicitud.venta.productos
-          .map((producto) => producto.nombre)
-          .join("\n"),
-        cantidad: solicitud.venta.productos
-          .map((producto) => producto.cantidad)
-          .join("\n"),
-        valot: solicitud.venta.productos
-          .map((producto) =>
-            "$".concat(producto.precioUnidad.toLocaleString("es-CL")),
-          )
-          .join("\n"),
-        total: "$".concat(solicitud.venta.total.toLocaleString("es-CL")),
         metodo_pago: solicitud.venta.medio_pago,
-        OBSERVACION: "",
-      }),
-    );
+        observacion: "",
+      };
 
-    // Añadimos una fila individual
-    sheet.addRow({ id: 4, name: "Sofía", age: 27 });
+      sheet.addRow(
+        full
+          ? {
+              ...baseRow,
+              estado: "",
+              fecha_solicitud: new Date(
+                solicitud.venta.fecha_solicitud,
+              ).toLocaleDateString("es-CL"),
+              fecha_entrega: new Date(
+                solicitud.venta.fecha_despacho,
+              ).toLocaleDateString("es-CL"),
+              rut: solicitud.cliente.rut,
+
+              descripcion: solicitud.venta.productos
+                .map((producto) => producto.nombre)
+                .join("\n"),
+              cantidad: solicitud.venta.productos
+                .map((producto) => producto.cantidad)
+                .join("\n"),
+              valot: solicitud.venta.productos
+                .map((producto) =>
+                  "$".concat(producto.precioUnidad.toLocaleString("es-CL")),
+                )
+                .join("\n"),
+              total: "$".concat(solicitud.venta.total.toLocaleString("es-CL")),
+            }
+          : baseRow,
+      );
+    });
 
     // Escribimos el archivo de Excel en el navegador para descargarlo
     workbook.xlsx.writeBuffer().then((data) => {
@@ -98,25 +105,23 @@ export default function RegistrosVentas() {
   return (
     <div className="content">
       <h1>Lista de Ventas</h1>
-      <Button className="print-btn" schema="success" onClick={downloadxls}>
-        Exportar guía de despacho completa
-      </Button>
-      <ul>
-        {ventas.map((v, index) => (
-          <li key={index}>{JSON.stringify(v)}</li>
-        ))}
-      </ul>
+      <section className={styles.btns_wrapper}>
+        <Button
+          className="print-btn"
+          schema="success"
+          onClick={(e) => downloadxls(e, true)}
+        >
+          Exportar guía de despacho completa
+        </Button>
+        <Button
+          className="print-btn"
+          schema="info"
+          onClick={(e) => downloadxls(e)}
+        >
+          Exportar guía de despacho chofer
+        </Button>
+      </section>
+      <Table />
     </div>
   );
 }
-
-// const date = new Date().toLocaleDateString("es-CL");
-
-// const ws = utils.json_to_sheet(ventasParsed, {
-//   cellStyles: true,
-// });
-
-// const wb = utils.book_new();
-// utils.book_append_sheet(wb, ws, date);
-// /* generate file and send to client */
-// writeFile(wb, `${date}.xlsx`);

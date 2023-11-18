@@ -1,6 +1,7 @@
+import { XIcon } from "../Icons/X";
 import styles from "./tablaventaproductos.module.css";
 
-export function TablaVentaProductos({ productos, total }) {
+export function TablaVentaProductos({ productos, total, eliminarProducto }) {
   return (
     <table className={styles.tabla_productos}>
       <thead>
@@ -9,21 +10,28 @@ export function TablaVentaProductos({ productos, total }) {
           <th>Cantidad</th>
           <th>Precio Unitario</th>
           <th>Total</th>
+          <th>Acción</th>
         </tr>
       </thead>
       <tbody>
         {productos.length > 0 ? (
           productos.map((producto) => (
-            <tr key={producto.nombre}>
+            <tr key={producto.id}>
               <td>{producto.nombre}</td>
               <td>{producto.cantidad}</td>
               <td>${producto.precioUnidad.toLocaleString("es-CL")}</td>
               <td>${producto.total.toLocaleString("es-CL")}</td>
+              <td
+                className={styles.actions_cell}
+                onClick={() => eliminarProducto(producto.id)}
+              >
+                <XIcon />
+              </td>
             </tr>
           ))
         ) : (
           <tr>
-            <td colSpan={3}>No hay productos añadidos</td>
+            <td colSpan={5}>No hay productos añadidos</td>
           </tr>
         )}
         <tr>
@@ -35,6 +43,7 @@ export function TablaVentaProductos({ productos, total }) {
           <td>
             <strong>${total.toLocaleString("es-CL")}</strong>
           </td>
+          <td> </td>
         </tr>
       </tbody>
     </table>
