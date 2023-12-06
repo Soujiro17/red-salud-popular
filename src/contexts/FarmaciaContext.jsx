@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, createContext, useState } from "react";
+import { useMemo, createContext, useState, useEffect } from "react";
+import { getVentas } from "../../lib/ventas";
 
 export const FarmaciaContext = createContext({
   ventas: [],
@@ -15,6 +16,12 @@ export function FarmaciaProvider({ children }) {
   };
 
   const value = useMemo(() => ({ ventas, setVentas, addVenta }), [ventas]);
+
+  useEffect(() => {
+    getVentas().then((res) => {
+      setVentas(res.ventas);
+    });
+  }, []);
 
   return (
     <FarmaciaContext.Provider value={value}>

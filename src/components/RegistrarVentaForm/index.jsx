@@ -98,7 +98,7 @@ export function RegistrarVentaForm() {
     setProducto((prev) => ({
       ...prev,
       nombre: value,
-      precioUnidad: selectedProduct.precio,
+      precio_unidad: selectedProduct.precio,
       total: selectedProduct.precio,
     }));
   };
@@ -106,7 +106,7 @@ export function RegistrarVentaForm() {
     setProducto((prev) => ({
       ...prev,
       cantidad: e.target.value,
-      total: prev.precioUnidad * e.target.value,
+      total: prev.precio_unidad * e.target.value,
     }));
   };
 
@@ -128,33 +128,74 @@ export function RegistrarVentaForm() {
     setProductos((prev) => prev.filter((producto) => producto.id !== id));
   };
 
+  const clearFields = () => {
+    setRut("");
+    setClienteSeleccionado(null);
+    setMedioPago("");
+    setFechaDespacho("");
+    setSector("");
+    setTelefono("");
+    setProducto(productoInitialState);
+    setProductos([]);
+  };
+
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
     onBeforeGetContent: () => {
       return new Promise((resolve, reject) => {
         setIsPrinting(true);
         const data = {
-          id: Math.random(),
+          metodo_pago: medioPago,
+          total: precioTotal,
+          productos,
+          fecha_solicitud: new Date().toLocaleDateString("es-CL"),
+          fecha_despacho: fechaDespacho,
           cliente: { ...clienteSeleccionado, telefono, sector },
-          venta: {
-            medio_pago: medioPago,
-            total: precioTotal,
-            productos,
-            fecha_solicitud: new Date().toDateString(),
-            fecha_despacho: fechaDespacho,
-          },
         };
+
+        const toastId = toast.loading("Creando venta...");
+
         addNewVenta({
           data,
         })
-          .then(() => {
+          .then((res) => {
+            let render = "Venta registrada con éxito";
+            let type = "success";
+
+            const isError = res.statusCode === 500;
+
+            if (isError) {
+              render = "Error al crear la venta";
+              type = "error";
+            }
+
+            toast.update(toastId, {
+              render,
+              type,
+              isLoading: false,
+              autoClose: 3000,
+              closeOnClick: true,
+            });
+
+            if (isError) {
+              promiseResolveRef.current = reject;
+              reject(new Error("Error"));
+            }
+
             promiseResolveRef.current = resolve;
-            /* nueva venta para el state */
-            addVenta(data);
-            resolve(data);
+
+            addVenta(res);
+            resolve(res);
           })
           .catch((err) => {
+            toast.update(toastId, {
+              render: "Error al crear la venta",
+              type: "error",
+              isLoading: false,
+            });
+
             promiseResolveRef.current = reject;
+
             reject(err);
           });
       });
@@ -162,6 +203,7 @@ export function RegistrarVentaForm() {
     onAfterPrint: () => {
       promiseResolveRef.current = null;
       setIsPrinting(false);
+      clearFields();
     },
   });
 

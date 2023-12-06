@@ -19,7 +19,7 @@ export function TablaVentaProductos({ productos, total, eliminarProducto }) {
             <tr key={producto.id}>
               <td>{producto.nombre}</td>
               <td>{producto.cantidad}</td>
-              <td>${producto.precioUnidad.toLocaleString("es-CL")}</td>
+              <td>${producto.precio_unidad.toLocaleString("es-CL")}</td>
               <td>${producto.total.toLocaleString("es-CL")}</td>
               <td
                 className={styles.actions_cell}

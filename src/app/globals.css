@@ -99,6 +99,10 @@ a {
   color: var(--blue);
 }
 
+.tabla-ventas {
+  font-size: 10px !important;
+}
+
 @media only screen and (max-width: 1524px) {
   .content {
     width: 90%;
